@@ -60,12 +60,12 @@ defmodule Vimeo.API do
   defp process_request_body(body) do
     body
     |> Enum.into(%{})
-    |> Poison.encode!
+    |> Jason.encode!
   end
 
   defp process_response_body(""), do: ""
   defp process_response_body(body) do
-    Poison.decode!(body, keys: :atoms)
+    Jason.decode!(body, keys: :atoms)
   end
 
   defp authorization_header(token \\ Vimeo.access_token) do
