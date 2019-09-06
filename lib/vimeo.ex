@@ -74,17 +74,17 @@ defmodule Vimeo do
 
   # Private -------------------------------------------------------------------
 
-  defp start_link(conf) do
-    Agent.start_link(fn -> conf end, name: __MODULE__)
+  def start_link(conf) do # <- this line
+    Agent.start_link(fn -> Enum.into(conf, %{}) end, name: __MODULE__) # <- this line
   end
 
   defp get_config do
-    Agent.get(__MODULE__, fn conf -> conf end)
+    Agent.get(__MODULE__, fn config -> config end)
   end
 
   defp set_config(key, value) do
-    Agent.update(__MODULE__, fn conf ->
-      Map.update!(conf, key, fn _ -> value end)
+    Agent.update(__MODULE__, fn config ->
+      Map.update!(config, key, fn _ -> value end)
     end)
   end
 
